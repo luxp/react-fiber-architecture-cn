@@ -149,7 +149,7 @@ v = f(d)
 
 具体来说，一个 fiber 是一个包含了组件及其输入输出的 JavaScript 对象。
 
-一个 fiber 对应于一个栈帧，但是它也对应与一个组件的实例。
+一个 fiber 对应于一个栈帧，但是它也对应于一个组件的实例。
 
 一个 fiber 有以下一些重要的字段。（该列表不是完全详尽的）
 
@@ -167,7 +167,7 @@ key 则与 type 一起，被用来在协调期间决定是否 fiber 可以被重
 
 这些字段指向了其他 fibers，它们描述了 fiber 构成的递归结构的树。
 
-孩子 fiber 对应于组件 `render` 方法返回的值。所以在下面的例子中：
+子 fiber 对应于组件 `render` 方法的返回值。所以在下面的例子中：
 
 ```js
 function Parent() {
@@ -175,7 +175,7 @@ function Parent() {
 }
 ```
 
-`Parent` 的孩子 fiber 对应于 `Child`。
+`Parent` 的子 fiber 对应于 `Child`。
 
 sibling 字段是为了解释 `render` 方法返回多个子元素的情况（这是 Fiber 中的一个新特性！）:
 
@@ -185,15 +185,15 @@ function Parent() {
 }
 ```
 
-孩子 fibers 来自一个单链表中的头部元素。所以在上面的例子中，`Parent` 的孩子是 `Child1`，`Child1` 的兄弟是 `Child2`。
+子 fibers 以其第一个元素作为head创建一个单链表。以上面的例子来看，`Parent` 组件的子fiber是 `Child1`组件，`Child1` 组件的兄弟fiber是 `Child2`组件。
 
 回到我们的函数类比，你可以认为一个函数 fiber 是一个[尾调用函数](https://en.wikipedia.org/wiki/Tail_call).
 
 #### `return`
 
-程序处理完当前 fiber 后应该返回 fiber。返回的 fiber 在概念上等同于返回栈帧的地址。
+`return fiber`是指程序处理完当前 fiber 后应返回的 fiber。在概念上它等同于返回栈帧的地址。
 
-如果 fiber 有不同的子 fibers，每个孩子 fiber 是由它的父亲返回的。所以在我们之前章节的例子中，孩子 fiber `Child1` 和 `Child2` 是由 `Parent` 返回的。
+如果一个 fiber 有多个 子fiber，每个子 fiber的`return fiber`就是它的父fiber。以我们之前章节的例子中来看，子fiber `Child1` 和 `Child2` 的`return fiber` 就是 `Parent`。
 
 #### `pendingProps` and `memoizedProps`
 
@@ -203,7 +203,7 @@ function Parent() {
 
 #### `pendingWorkPriority`
 
-一个用来表示 fiber 代表的任务优先级的数字。[ReactPriorityLevel](https://github.com/facebook/react/blob/master/src/renderers/shared/fiber/ReactPriorityLevel.js) 模块列出了不同的优先级以及它们所代表的含义。
+一个用来表示fiber任务优先级的数字。[ReactPriorityLevel](https://github.com/facebook/react/blob/master/src/renderers/shared/fiber/ReactPriorityLevel.js) 模块列出了不同的优先级以及它们所代表的含义。
 
 除了优先级为 0 的 `NoWork` 以外，一个更大的数字表示更低的优先级。举例来说，你可以使用下列函数来确保一个 fiber 的优先级与给定的级别一样高：
 
