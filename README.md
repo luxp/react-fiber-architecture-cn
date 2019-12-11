@@ -214,7 +214,7 @@ function matchesPriority(fiber, priority) {
 }
 ```
 
-*这个函数知识为了说明；它不是 React Fiber 基础代码的一部分。*
+*这个函数只是为了说明；它不是 React Fiber 基础代码的一部分。*
 
 调度器使用优先级字段来搜索下一个执行的任务单元。这个算法将在将来的章节被讨论。
 
@@ -225,27 +225,27 @@ function matchesPriority(fiber, priority) {
   <dd>flush 一个 fiber 就是把它的输出应用到屏幕上。</dd>
 
   <dt>work-in-progress</dt>
-  <dd>一个 fiber 还没有完成；从概念上讲，就是一个栈帧还没有返回。</dd>
+  <dd>一个 fiber 还没有完成；从概念上讲，就是一个还没有返回的栈帧。</dd>
 </dl>
 
-在任何时候，一个组件实例至多对应有两个 fibers。它们是当前已经 flush 到屏幕上的 fiber，另一个是正在任务执行中的 fiber。
+在任何时候，一个组件实例至多对应有两个 fiber。一个是当前已经 flush 到屏幕上的 fiber，另一个是正在任务执行中的 fiber。
 
 两个 fiber 相互交替。
 
 fiber 的交替过程是使用一个叫做 `cloneFiber` 的函数延迟创建的。相比于创建一个新的对象，`cloneFiber` 将尝试去重复利用已存在的 fiber，来最小化分配。
 
-你应该把 `alternate` 字段做为一个实现细节，但是它在基础代码中经常出现，在此讨论它是有价值的。
+你应该会把 `alternate` 视为实现细节，但是它在基础代码中经常出现，在此讨论它是有价值的。
 
 #### `output`
 
 <dl>
-  <dt>host component</dt>
-  <dd>React 应用的叶子节点。它们由特定的渲染环境决定（例如在网页应用中，它们是 `div`、`span` 等）。在 JSX 中，它们用小写标签名表示。</dd>
+  <dt>宿主组件(host component)</dt>
+  <dd>它是React 应用的子节点。它们由特定的渲染环境决定（例如在网页应用中，它们是 `div`、`span` 等）。在 JSX 中，它们用小写标签名表示。</dd>
 </dl>
 
 概念上说，fiber 输出的是函数的返回值。
 
-每一个 fiber 最终都有输出，但是输出只包含 **host components** 叶子节点。输出的内容随后将被转移到树上。
+每一个 fiber 最终都有输出，但是输出只包含 **host components** 子节点。输出的内容随后将被转移到树上。
 
 输出的内容最终会给到渲染器，以至于改变能够被应用到真正的渲染环境上。输出如何被创建和更新则是渲染器的职责。
 
